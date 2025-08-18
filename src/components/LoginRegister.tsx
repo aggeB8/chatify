@@ -21,9 +21,10 @@ const LoginRegister = ({ method }: { method: "register" | "login" }) => {
                 className="rounded-md border border-neutral-400 p-2"
             />
             <div className="flex gap-2 w-full items-center justify-center">
+                <button>s</button>
                 <button
                     onClick={() => action(formValues.username, formValues.password)}
-                    className="bg-gradient-to-t from-blue-600 to-blue-400 w-fit p-2 rounded-md text-white"
+                    className="bg-blue-500 w-fit p-2 rounded-md text-white"
                 >
                     {method === "register" ? "Register" : "Login"}
                 </button>
