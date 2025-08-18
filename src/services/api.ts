@@ -1,8 +1,26 @@
 import axios from "axios"
+import { toast } from "react-toastify"
 
 const client = axios.create({
     baseURL: "https://chatify-api.up.railway.app"
 })
+
+client.interceptors.response.use(
+    (res) => {
+        const successMessage = res.data.message
+        if (successMessage) {
+            toast.success(successMessage)
+        }
+        return res
+    },
+    (err) => {
+        const errorMessage = err.response.data.error
+        if (errorMessage) {
+            toast.error(errorMessage)
+        }
+        return err
+    }
+)
 
 const paramBuilder = (rawUrl: string, params: object) => {
     const url = new URL(rawUrl)
@@ -49,7 +67,12 @@ const api = {
         deleteUser: (userId: string) => {
             return client.delete(`/users/${userId}`)
         },
-        updateUser: (userId: string, updateData: {}) => {}
+        updateUser: (userId: string, updateData: unknown) => {
+            return client.put("/user", {
+                userId: userId,
+                updatedData: updateData
+            })
+        }
     }
 }
 

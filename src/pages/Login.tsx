@@ -1,7 +1,7 @@
-import LoginRegister from "../components/LoginRegister"
+import Auth from "../components/Auth"
 
 const Login = () => {
-    return <LoginRegister method="login" />
+    return <Auth method="Login" />
 }
 
 export default Login
