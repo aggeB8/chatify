@@ -1,10 +1,21 @@
 import { atom } from "jotai"
 
-const userAtom = atom({
+type UserAtomType = {
+    jwtToken: string
+    csrfToken: string
+    user: string
+    email: string
+    avatar: string
+    id: number | null
+}
+
+const userAtom = atom<UserAtomType>({
+    jwtToken: "",
     csrfToken: "",
-    username: "",
+    user: "",
     email: "",
-    avatar: ""
+    avatar: "",
+    id: null
 })
 
 export default userAtom

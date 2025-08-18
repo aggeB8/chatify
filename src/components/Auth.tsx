@@ -1,10 +1,14 @@
 import { Link } from "react-router"
 import api from "../services/api"
-import { useAtomValue } from "jotai"
+import { useAtom } from "jotai"
 import userAtom from "../store/userAtom"
+import { useNavigate } from "react-router"
+import { jwtDecode } from "jwt-decode"
 
 const Auth = ({ method }: { method: "Register" | "Login" }) => {
-    const user = useAtomValue(userAtom)
+    const navigate = useNavigate()
+
+    const [user, setUser] = useAtom(userAtom)
 
     const formValues = {
         username: "",
@@ -16,13 +20,50 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
     const action = async () => {
         switch (method) {
             case "Register":
-                api.auth.register(
-                    formValues.username,
-                    formValues.password,
-                    formValues.email,
-                    formValues.avatar,
-                    user.csrfToken
-                )
+                try {
+                    await api.auth.register(
+                        formValues.username,
+                        formValues.password,
+                        formValues.email,
+                        formValues.avatar,
+                        user.csrfToken
+                    )
+                    navigate("/login")
+                } catch (e) {
+                    console.log(e)
+                }
+                break
+            case "Login":
+                try {
+                    const token = (
+                        await api.auth.login(
+                            formValues.username,
+                            formValues.password,
+                            user.csrfToken
+                        )
+                    ).data.token
+
+                    const userData: {
+                        avatar: string
+                        email: string
+                        id: number
+                        invite: null | string
+                        user: string
+                    } = jwtDecode(token)
+
+                    setUser((user) => ({
+                        ...user,
+                        jwtToken: token,
+                        id: userData.id,
+                        user: userData.user,
+                        email: userData.avatar,
+                        avatar: userData.avatar
+                    }))
+                    navigate("/chat")
+                } catch (e) {
+                    console.log(e)
+                }
+                break
         }
     }
 

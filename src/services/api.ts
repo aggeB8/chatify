@@ -39,6 +39,13 @@ const api = {
         getCsrfToken: () => {
             return client.patch("/csrf")
         },
+        login: (username: string, password: string, csrfToken: string) => {
+            return client.post("/auth/token", {
+                username: username,
+                password: password,
+                csrfToken: csrfToken
+            })
+        },
         register: (
             username: string,
             password: string,

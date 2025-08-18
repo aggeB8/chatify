@@ -9,6 +9,7 @@ import { useSetAtom } from "jotai"
 import { useEffect } from "react"
 import api from "./services/api"
 import { ToastContainer } from "react-toastify"
+import Chat from "./pages/Chat"
 
 const App = () => {
     const setUser = useSetAtom(userAtom)
@@ -33,6 +34,7 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/chat" element={<Chat />} />
                 </Routes>
             </BrowserRouter>
         </main>
