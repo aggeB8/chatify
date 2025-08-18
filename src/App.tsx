@@ -10,6 +10,9 @@ import { useEffect } from "react"
 import api from "./services/api"
 import { ToastContainer } from "react-toastify"
 import Chat from "./pages/Chat"
+import HomeWrapper from "./wrappers/HomeWrapper"
+import AuthWrapper from "./wrappers/AuthWrapper"
+import Profile from "./pages/Profile"
 
 const App = () => {
     const setUser = useSetAtom(userAtom)
@@ -27,17 +30,23 @@ const App = () => {
     }, [])
 
     return (
-        <main className="h-dvh w-dvw flex items-center justify-center">
+        <>
             <ToastContainer />
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/chat" element={<Chat />} />
+                    <Route element={<HomeWrapper />}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
+                    </Route>
+
+                    <Route element={<AuthWrapper />}>
+                        <Route path="/chat" element={<Chat />} />
+                        <Route path="/profile" element={<Profile />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
-        </main>
+        </>
     )
 }
 

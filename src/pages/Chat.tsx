@@ -1,15 +1,15 @@
-import { useAtomValue } from "jotai"
-import userAtom from "../store/userAtom"
-import { useEffect } from "react"
+import ChatBox from "../components/ChatBox"
+import ConversationsBox from "../components/ConversationsBox"
+import { UsersBox } from "../components/UsersBox"
 
 const Chat = () => {
-    const userValue = useAtomValue(userAtom)
-
-    useEffect(() => {
-        console.log(userValue)
-    })
-
-    return <div>Chat</div>
+    return (
+        <div className="flex w-full justify-between gap-4">
+            <UsersBox />
+            <ChatBox />
+            <ConversationsBox />
+        </div>
+    )
 }
 
 export default Chat

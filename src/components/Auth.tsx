@@ -4,17 +4,48 @@ import { useAtom } from "jotai"
 import userAtom from "../store/userAtom"
 import { useNavigate } from "react-router"
 import { jwtDecode } from "jwt-decode"
+import { useEffect, useState, type SyntheticEvent } from "react"
 
 const Auth = ({ method }: { method: "Register" | "Login" }) => {
     const navigate = useNavigate()
 
     const [user, setUser] = useAtom(userAtom)
 
-    const formValues = {
+    const [formValues, setFormValues] = useState({
         username: "",
         password: "",
         email: "",
         avatar: ""
+    })
+
+    const handleChange = (e: SyntheticEvent) => {
+        const target = e.target as HTMLInputElement
+        if (e.target) {
+            setFormValues({ ...formValues, [target.name]: target.value })
+        }
+    }
+
+    const login = (jwtToken: string) => {
+        const userData: {
+            avatar: string
+            email: string
+            id: number
+            invite: null | string
+            user: string
+        } = jwtDecode(jwtToken)
+
+        setUser((user) => ({
+            ...user,
+            userData: {
+                id: userData.id,
+                user: userData.user,
+                email: userData.avatar,
+                avatar: userData.avatar
+            }
+        }))
+
+        api.setJwtAuth(jwtToken)
+        navigate("/chat")
     }
 
     const action = async () => {
@@ -35,7 +66,7 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
                 break
             case "Login":
                 try {
-                    const token = (
+                    const jwtToken = (
                         await api.auth.login(
                             formValues.username,
                             formValues.password,
@@ -43,23 +74,8 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
                         )
                     ).data.token
 
-                    const userData: {
-                        avatar: string
-                        email: string
-                        id: number
-                        invite: null | string
-                        user: string
-                    } = jwtDecode(token)
-
-                    setUser((user) => ({
-                        ...user,
-                        jwtToken: token,
-                        id: userData.id,
-                        user: userData.user,
-                        email: userData.avatar,
-                        avatar: userData.avatar
-                    }))
-                    navigate("/chat")
+                    localStorage.setItem("jwt", jwtToken)
+                    login(jwtToken)
                 } catch (e) {
                     console.log(e)
                 }
@@ -67,17 +83,28 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
         }
     }
 
+    useEffect(() => {
+        const token = localStorage.getItem("jwt")
+        if (token) {
+            login(token)
+        }
+    }, [])
+
     return (
         <div className="flex flex-col gap-2 p-2">
             <input
-                onChange={(e) => (formValues.username = e.target.value)}
+                onChange={handleChange}
+                value={formValues.username}
+                name="username"
                 type="text"
                 placeholder="Username"
                 className="rounded-md border border-neutral-400 p-2"
             />
 
             <input
-                onChange={(e) => (formValues.password = e.target.value)}
+                onChange={handleChange}
+                value={formValues.password}
+                name="password"
                 type="text"
                 placeholder="Password"
                 className="rounded-md border border-neutral-400 p-2"
@@ -86,13 +113,17 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
             {method === "Register" ? (
                 <>
                     <input
-                        onChange={(e) => (formValues.email = e.target.value)}
+                        onChange={handleChange}
+                        value={formValues.email}
+                        name="email"
                         type="text"
                         placeholder="Email"
                         className="rounded-md border border-neutral-400 p-2"
                     />
                     <input
-                        onChange={(e) => (formValues.avatar = e.target.value)}
+                        onChange={handleChange}
+                        value={formValues.avatar}
+                        name="avatar"
                         type="text"
                         placeholder="Avatar"
                         className="rounded-md border border-neutral-400 p-2"

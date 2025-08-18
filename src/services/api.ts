@@ -22,18 +22,6 @@ client.interceptors.response.use(
     }
 )
 
-const paramBuilder = (rawUrl: string, params: object) => {
-    const url = new URL(rawUrl)
-
-    Object.keys(params).forEach((key) => {
-        return params[key as keyof typeof params]
-            ? url.searchParams.set(key, params[key as keyof typeof params])
-            : null
-    })
-
-    return url.toString()
-}
-
 const api = {
     auth: {
         getCsrfToken: () => {
@@ -63,23 +51,48 @@ const api = {
         }
     },
     users: {
-        getUsers: (username?: string, limit?: string, offset?: string) => {
-            const url = paramBuilder("/users", { username: username, limit: limit, offset: offset })
-
-            return client.get(url)
+        getUsers: () => {
+            return client.get("/users")
         },
-        getUser: (userId: string) => {
+        getUser: (userId: number) => {
             return client.get(`/users/${userId}`)
         },
-        deleteUser: (userId: string) => {
+        deleteUser: (userId: number) => {
             return client.delete(`/users/${userId}`)
         },
-        updateUser: (userId: string, updateData: unknown) => {
+        updateUser: (userId: number, updateData: unknown) => {
             return client.put("/user", {
                 userId: userId,
                 updatedData: updateData
             })
+        },
+        inviteUser: (userId: number) => {
+            return client.post(`/invite/${userId}`, {
+                conversationId: crypto.randomUUID()
+            })
         }
+    },
+    messages: {
+        getConversations: () => {
+            return client.get("/conversations")
+        },
+        getMessages: (conversationId?: string) => {
+            return client.get(
+                `/messages${conversationId ? "?conversationId=" + conversationId : null}`
+            )
+        },
+        createMessage: (text: string, conversationId: string) => {
+            return client.post("/messages", {
+                text: text,
+                conversationId: conversationId
+            })
+        },
+        deleteMessage: (msgId: string) => {
+            return client.delete(`/messages/${msgId}`)
+        }
+    },
+    setJwtAuth: (jwtToken: string) => {
+        client.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`
     }
 }
 
