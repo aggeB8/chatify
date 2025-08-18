@@ -2,14 +2,17 @@ import { Outlet, useNavigate } from "react-router"
 import SideNav from "../components/SideNav"
 import { useAtomValue } from "jotai"
 import userAtom from "../store/userAtom"
+import { useEffect } from "react"
 
 const AuthWrapper = () => {
     const user = useAtomValue(userAtom)
     const navigate = useNavigate()
 
-    if (user.userData === null) {
-        navigate("login")
-    }
+    useEffect(() => {
+        if (user.userData === null) {
+            navigate("login")
+        }
+    })
 
     return (
         <div className="flex h-dvh w-dvw">

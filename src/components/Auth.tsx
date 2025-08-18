@@ -39,7 +39,7 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
             userData: {
                 id: userData.id,
                 user: userData.user,
-                email: userData.avatar,
+                email: userData.email,
                 avatar: userData.avatar
             }
         }))

@@ -1,21 +1,10 @@
-import { useSetAtom, useAtom } from "jotai"
-import chatAtom from "../store/chatStore"
+import { useAtomValue } from "jotai"
 import userAtom from "../store/userAtom"
 import { useNavigate } from "react-router"
 
 const SideNav = () => {
-    const setChat = useSetAtom(chatAtom)
-    const [user, setUser] = useAtom(userAtom)
+    const user = useAtomValue(userAtom)
     const navigate = useNavigate()
-
-    const logout = () => {
-        setChat(null)
-        setUser({
-            csrfToken: "",
-            userData: null
-        })
-        navigate("/")
-    }
 
     return (
         <div className="h-full flex p-4 items-center justify-center ">
@@ -37,7 +26,7 @@ const SideNav = () => {
                     Chats
                 </button>
                 <button
-                    onClick={() => logout()}
+                    onClick={() => navigate("/logout")}
                     className="p-2 bg-red-500 rounded-md text-white w-full"
                 >
                     Logout

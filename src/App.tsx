@@ -13,6 +13,7 @@ import Chat from "./pages/Chat"
 import HomeWrapper from "./wrappers/HomeWrapper"
 import AuthWrapper from "./wrappers/AuthWrapper"
 import Profile from "./pages/Profile"
+import Logout from "./pages/Logout"
 
 const App = () => {
     const setUser = useSetAtom(userAtom)
@@ -38,6 +39,7 @@ const App = () => {
                         <Route path="/" element={<Home />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/logout" element={<Logout />} />
                     </Route>
 
                     <Route element={<AuthWrapper />}>

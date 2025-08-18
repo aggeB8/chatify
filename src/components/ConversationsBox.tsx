@@ -15,7 +15,6 @@ export const ConversationsBox = () => {
 
     const getConversations = async () => {
         const conversationsData = (await api.messages.getConversations()).data
-        console.log(conversationsData)
         setConversations(conversationsData)
     }
 
