@@ -86,6 +86,13 @@ const ChatBox = () => {
                     <div className="flex gap-2">
                         <input
                             onInput={(e) => setMessage(e.currentTarget.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    sendMessage(message)
+                                    setMessage("")
+                                }
+                            }}
+                            value={message}
                             type="text"
                             placeholder="Send message"
                             className="w-full border border-gray-300 px-2 rounded-md"

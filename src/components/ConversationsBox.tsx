@@ -22,9 +22,9 @@ export const ConversationsBox = () => {
     }
 
     return (
-        <div className="max-h-full max-w-80 w-full flex flex-col border border-slate-300 rounded-md p-4">
+        <div className="max-h-full max-w-80 w-full flex flex-col border border-slate-300 rounded-md p-4 ">
             <p className="text-gray-400">Conversations</p>
-            <div className="flex flex-col w-full h-full overflow-y-scroll">
+            <div className="flex flex-col w-full h-full overflow-hidden ">
                 <p className="underline">Invites recieved</p>
                 {conversations?.invitesReceived &&
                     conversations.invitesReceived.map((conversationId) => {
