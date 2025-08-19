@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue } from "jotai"
 import chatAtom from "../store/chatStore"
 import api from "../services/api"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import userAtom from "../store/userAtom"
 
 const ChatBox = () => {
@@ -43,8 +43,6 @@ const ChatBox = () => {
             console.log(e)
         }
     }
-
-    useEffect(() => {}, [])
 
     return (
         <div className="h-full w-full flex items-center justify-center p-4">

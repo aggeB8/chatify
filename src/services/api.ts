@@ -66,9 +66,9 @@ const api = {
                 updatedData: updateData
             })
         },
-        inviteUser: (userId: number) => {
+        inviteUser: (userId: number, guid: string) => {
             return client.post(`/invite/${userId}`, {
-                conversationId: crypto.randomUUID()
+                conversationId: guid
             })
         }
     },

@@ -2,14 +2,20 @@ import { useEffect } from "react"
 import ChatBox from "../components/ChatBox"
 import ConversationsBox from "../components/ConversationsBox"
 import { UsersBox } from "../components/UsersBox"
-import { useAtomValue } from "jotai"
-import userAtom from "../store/userAtom"
+import { useSetAtom } from "jotai"
+import conversationsAtom from "../store/conversationsStore"
+import api from "../services/api"
 
 const Chat = () => {
-    const user = useAtomValue(userAtom)
+    const setConversations = useSetAtom(conversationsAtom)
+
+    const fetchConversation = async () => {
+        const conversations = (await api.messages.getConversations()).data
+        setConversations(conversations)
+    }
 
     useEffect(() => {
-        console.log(user)
+        fetchConversation()
     }, [])
 
     return (

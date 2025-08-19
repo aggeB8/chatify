@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import api from "../services/api"
+import { useAtom } from "jotai"
+import conversationsAtom from "../store/conversationsStore"
 
 type UserType = {
     userId: number
@@ -10,6 +12,7 @@ type UserType = {
 export const UsersBox = () => {
     const [users, setUsers] = useState<UserType[] | null>(null)
     const [allUsers, setAllUsers] = useState<UserType[] | null>(null)
+    const [conversations, setConversations] = useAtom(conversationsAtom)
 
     const getUsers = async () => {
         const usersData = (await api.users.getUsers()).data
@@ -34,7 +37,17 @@ export const UsersBox = () => {
     }
 
     const inviteUser = async (userId: number) => {
-        await api.users.inviteUser(userId)
+        try {
+            const conversationId = crypto.randomUUID()
+            await api.users.inviteUser(userId, conversationId)
+
+            setConversations((prev) => ({
+                ...prev,
+                invitesSent: [...prev.invitesSent, conversationId]
+            }))
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     useEffect(() => {

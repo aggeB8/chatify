@@ -1,22 +1,11 @@
-import { useState, useEffect } from "react"
 import api from "../services/api"
-import { useSetAtom } from "jotai"
+import { useAtomValue, useSetAtom } from "jotai"
 import chatAtom from "../store/chatStore"
-
-type ConversationType = {
-    invitesReceived: string[]
-    invitesSent: string[]
-    participating: string[]
-} | null
+import conversationsAtom from "../store/conversationsStore"
 
 export const ConversationsBox = () => {
-    const [conversations, setConversations] = useState<ConversationType>(null)
+    const conversations = useAtomValue(conversationsAtom)
     const setChat = useSetAtom(chatAtom)
-
-    const getConversations = async () => {
-        const conversationsData = (await api.messages.getConversations()).data
-        setConversations(conversationsData)
-    }
 
     const fetchConversation = async (conversationId: string) => {
         try {
@@ -29,10 +18,6 @@ export const ConversationsBox = () => {
             console.log(e)
         }
     }
-
-    useEffect(() => {
-        getConversations()
-    }, [])
 
     return (
         <div className="max-h-full max-w-80 w-full flex flex-col border border-slate-300 rounded-md p-4">
