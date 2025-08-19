@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import api from "../services/api"
-import { useAtom } from "jotai"
+import { useSetAtom } from "jotai"
 import conversationsAtom from "../store/conversationsStore"
 
 type UserType = {
@@ -12,7 +12,7 @@ type UserType = {
 export const UsersBox = () => {
     const [users, setUsers] = useState<UserType[] | null>(null)
     const [allUsers, setAllUsers] = useState<UserType[] | null>(null)
-    const [conversations, setConversations] = useAtom(conversationsAtom)
+    const setConversations = useSetAtom(conversationsAtom)
 
     const getUsers = async () => {
         const usersData = (await api.users.getUsers()).data
