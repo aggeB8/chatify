@@ -109,7 +109,7 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
                 onChange={handleChange}
                 value={formValues.password}
                 name="password"
-                type="text"
+                type="password"
                 placeholder="Password"
                 className="rounded-md border border-neutral-400 p-2"
             />
