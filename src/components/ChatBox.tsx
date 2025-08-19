@@ -45,7 +45,7 @@ const ChatBox = () => {
     }
 
     return (
-        <div className="h-full w-full flex items-center justify-center p-4">
+        <div className="h-full w-full flex items-center justify-center border border-slate-300 rounded-md p-4">
             {chat && user ? (
                 <div className="h-full w-full flex flex-col">
                     <div className="h-full flex flex-col">

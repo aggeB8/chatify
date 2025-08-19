@@ -14,6 +14,7 @@ import HomeWrapper from "./wrappers/HomeWrapper"
 import AuthWrapper from "./wrappers/AuthWrapper"
 import Profile from "./pages/Profile"
 import Logout from "./pages/Logout"
+import VisitLogger from "./components/VisitLogger"
 
 const App = () => {
     const setUser = useSetAtom(userAtom)
@@ -34,6 +35,8 @@ const App = () => {
         <>
             <ToastContainer />
             <BrowserRouter>
+                <VisitLogger />
+
                 <Routes>
                     <Route element={<HomeWrapper />}>
                         <Route path="/" element={<Home />} />

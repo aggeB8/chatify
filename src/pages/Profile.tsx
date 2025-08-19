@@ -72,7 +72,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="h-full w-full flex flex-col items-center justify-center gap-4">
+        <div className="h-full w-full flex flex-col items-center justify-center gap-4 ">
             {isValidUrl(form.avatar) && (
                 <img
                     src={form.avatar}
@@ -87,7 +87,7 @@ const Profile = () => {
                 placeholder="Username"
                 value={form.username}
                 onInput={handleChange}
-                className=""
+                className="border border-slate-300 rounded-md p-2"
             />
             <input
                 type="email"
@@ -95,7 +95,7 @@ const Profile = () => {
                 placeholder="Email"
                 value={form.email}
                 onChange={handleChange}
-                className=""
+                className="border border-slate-300 rounded-md p-2"
             />
             <input
                 type="url"
@@ -103,7 +103,7 @@ const Profile = () => {
                 placeholder="Avatar URL"
                 value={form.avatar}
                 onChange={handleChange}
-                className=""
+                className="border border-slate-300 rounded-md p-2"
             />
             <button
                 onClick={() => updateUser()}
