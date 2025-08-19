@@ -1,5 +1,6 @@
 import axios from "axios"
 import { toast } from "react-toastify"
+import log from "../utils/log"
 
 const client = axios.create({
     baseURL: "https://chatify-api.up.railway.app"
@@ -15,9 +16,21 @@ client.interceptors.response.use(
     },
     (err) => {
         const errorMessage = err.response.data.error
+        const errorCode = err.response.status
+
         if (errorMessage) {
             toast.error(errorMessage)
+            console.log(errorCode)
+
+            if (errorCode <= 499) {
+                log.error(`Client error: ${errorMessage}`)
+            }
+
+            if (errorCode <= 599 && errorCode >= 500) {
+                log.error(`Server error: ${errorMessage}`)
+            }
         }
+
         return err
     }
 )
