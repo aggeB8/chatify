@@ -2,6 +2,7 @@ import api from "../services/api"
 import { useAtomValue, useSetAtom } from "jotai"
 import chatAtom from "../store/chatStore"
 import conversationsAtom from "../store/conversationsStore"
+import log from "../utils/log"
 
 export const ConversationsBox = () => {
     const conversations = useAtomValue(conversationsAtom)
@@ -10,6 +11,7 @@ export const ConversationsBox = () => {
     const fetchConversation = async (conversationId: string) => {
         try {
             const chatData = (await api.messages.getMessages(conversationId)).data
+            log.log("Grabbed conversations")
             setChat({
                 activeChat: conversationId,
                 chatData: chatData

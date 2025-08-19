@@ -5,6 +5,7 @@ import userAtom from "../store/userAtom"
 import { useNavigate } from "react-router"
 import { jwtDecode } from "jwt-decode"
 import { useEffect, useState, type SyntheticEvent } from "react"
+import log from "../utils/log"
 
 const Auth = ({ method }: { method: "Register" | "Login" }) => {
     const navigate = useNavigate()
@@ -45,6 +46,7 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
         }))
 
         api.setJwtAuth(jwtToken)
+        log.log("Set JWT Token")
         navigate("/chat")
     }
 
@@ -59,6 +61,7 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
                         formValues.avatar,
                         user.csrfToken
                     )
+                    log.log(`Registered user: ${formValues.username}`)
                     navigate("/login")
                 } catch (e) {
                     console.log(e)
@@ -74,6 +77,7 @@ const Auth = ({ method }: { method: "Register" | "Login" }) => {
                         )
                     ).data.token
 
+                    log.log(`Logged in user: ${formValues.username}`)
                     localStorage.setItem("jwt", jwtToken)
                     login(jwtToken)
                 } catch (e) {

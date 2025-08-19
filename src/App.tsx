@@ -15,12 +15,14 @@ import AuthWrapper from "./wrappers/AuthWrapper"
 import Profile from "./pages/Profile"
 import Logout from "./pages/Logout"
 import VisitLogger from "./components/VisitLogger"
+import log from "./utils/log"
 
 const App = () => {
     const setUser = useSetAtom(userAtom)
 
     const grabCsrf = async () => {
         const data = (await api.auth.getCsrfToken()).data
+        log.log("Grabbed csrf token")
         setUser((userAtom) => ({
             ...userAtom,
             csrfToken: data.csrfToken

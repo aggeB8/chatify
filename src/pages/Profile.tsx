@@ -4,6 +4,7 @@ import userAtom from "../store/userAtom"
 import api from "../services/api"
 import { useNavigate } from "react-router"
 import { toast } from "react-toastify"
+import log from "../utils/log"
 
 const Profile = () => {
     const user = useAtomValue(userAtom)
@@ -40,7 +41,7 @@ const Profile = () => {
 
         try {
             await api.users.updateUser(user.userData?.id, form)
-
+            log.log(`User: ${user.userData.id} updated profile data`)
             if (user.userData.user !== form.username) {
                 toast.warn("Logging out because of username change.")
                 navigate("/logout")
@@ -65,6 +66,7 @@ const Profile = () => {
 
         try {
             await api.users.deleteUser(user.userData.id)
+            log.log(`User: ${user.userData.id} deleted themselves`)
             navigate("/logout")
         } catch (e) {
             console.log(e)
