@@ -56,12 +56,17 @@ const ChatBox = () => {
                                         <p
                                             onClick={() => deleteMessage(message.id)}
                                             id={message.id}
-                                            className="self-end hover:text-red-600 cursor-pointer"
+                                            className="self-end hover:bg-red-600 transition-all p-2 bg-blue-400 text-white rounded-xl cursor-pointer"
                                         >
                                             {message.text}
                                         </p>
                                     ) : (
-                                        <p id={message.id}>{message.text}</p>
+                                        <p
+                                            className="p-2 bg-gray-400 w-fit rounded-xl text-white"
+                                            id={message.id}
+                                        >
+                                            {message.text}
+                                        </p>
                                     )}
                                 </>
                             )
